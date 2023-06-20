@@ -3,6 +3,7 @@ import WelcomePage from "@/views/WelcomePage.vue";
 import CreateRule from "@/views/CreateRule.vue";
 import AuthorizationView from "@/views/AuthorizationView.vue";
 import RegistrationView from "@/views/RegistrationView.vue";
+import EmailApproved from "@/views/EmailApproved.vue";
 
 const routes = [
     {
@@ -20,6 +21,10 @@ const routes = [
     {
         path: '/register',
         component: RegistrationView
+    },
+    {
+        path: '/email_approved',
+        component: EmailApproved
     },
 
 ]

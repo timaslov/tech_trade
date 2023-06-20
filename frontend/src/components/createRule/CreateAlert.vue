@@ -14,9 +14,8 @@
       border-indigo-300
     "
     >
-      <label> Введите ссылку на чарт </label>
-      <label> https://www.tradingview.com/chart/Y0qHLrDY/?symbol=BINANCE%3ABNBUSDT.P </label>
-      <textarea class="border-2 w-2/3 rounded-md" placeholder="URL" v-model="chartLink"></textarea>
+      <label> Создайте алерт с кодом ниже</label>
+      <textarea class="border-2 w-2/3 rounded-md" placeholder="URL" v-model="DataAlertCode"></textarea>
       <button
           v-if="isButtonVisible"
           @click="handleClick"
@@ -31,42 +30,42 @@
                   px-5
                   py-2.5
                 "
-      >Обработать ссылку</button>
+      >Алерт отправлен</button>
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
 export default {
+  name: "CreateAlert",
+
+  props: {
+    alertCode: Object,
+  },
+
   data() {
     return {
-      chartLink: 'https://www.tradingview.com/chart/Y0qHLrDY/?symbol=BINANCE%3ABNBUSDT.P',
-      responseData: {},
       isButtonVisible: true,
+      DataAlertCode: {},
     };
   },
+
+  created() {
+    this.DataAlertCode = JSON.stringify(this.alertCode)
+    console.log(this.alertCode)
+    console.log(this.DataAlertCode)
+  },
+
   methods: {
-    async handleClick() {
-      let response
-      let body = {url: this.chartLink}
-      try {
-        response = await axios.post(
-            "http://178.154.221.39:80/testhook", body)
-        this.responseData = response.data
-        this.$emit('url_handle_success', this.responseData);
-        this.hideButton()
-      } catch(error)
-      {
-        throw error.response.status
-      }
-      console.log(this.responseData)
+    handleClick() {
+      this.$emit('alert_sent');
+      this.hideButton()
     },
 
-    hideButton() {
+    hideButton(){
       this.isButtonVisible = false
     }
 
   },
-};
+}
 </script>

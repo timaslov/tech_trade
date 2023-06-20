@@ -42,7 +42,6 @@
 <script>
 import {getAuth, createUserWithEmailAndPassword, sendEmailVerification} from "firebase/auth";
 import {firebaseApp} from "../../firebaseConfig";
-
 export default {
   name: "RegistrationView",
 

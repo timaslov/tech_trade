@@ -44,8 +44,8 @@ export default {
   },
 
   methods: {
-    async handleClick() {
-      this.$emit('chart_created', this.responseData);
+    handleClick() {
+      this.$emit('chart_created');
       this.hideButton()
     },
 

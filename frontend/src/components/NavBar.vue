@@ -60,7 +60,7 @@ color: white;
             <router-link to="/create_rule"><li>Создать правило</li></router-link>
             <li>Управление правилами</li>
             <li>Смена пароля</li>
-            <li>Выйти</li>
+            <li @click="logoutButton">Выйти</li>
           </ul>
         </a>
       </li>
@@ -70,6 +70,7 @@ color: white;
 </template>
 
 <script>
+import {useUserStore} from "@/store/userStore";
 export default {
   name: "NavBar",
 
@@ -84,6 +85,11 @@ export default {
     },
     closeDropdown() {
       this.dropdownOpen = false;
+    },
+    logoutButton() {
+      const userStore = useUserStore()
+      userStore.clearUser()
+      console.log(userStore.user)
     },
   },
 };

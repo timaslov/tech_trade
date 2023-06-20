@@ -43,7 +43,7 @@
 import 'firebase/compat/auth';
 import {firebaseApp} from "../../firebaseConfig";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-
+import {useUserStore} from "@/store/userStore";
 export default {
   name: "AuthorizationView",
 
@@ -60,9 +60,15 @@ export default {
 
       const auth = getAuth(firebaseApp);
       signInWithEmailAndPassword(auth, this.email, this.password)
-      //signInWithEmailAndPassword(auth, 'maksigod@yandex.ru', '1234567')
           .then((userCredential) => {
-            console.log("Успешная авторизация", userCredential.user);
+            const user = userCredential.user;
+            if (user.emailVerified) {
+              console.log("Успешная авторизация", user);
+              const userStore = useUserStore()
+              userStore.setUser(user)
+            }
+            else
+              console.log("Почта не подтверждена");
           })
           .catch((error) => {
             console.log("Ошибка авторизации", error);
