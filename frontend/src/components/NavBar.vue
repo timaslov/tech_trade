@@ -53,6 +53,8 @@ color: white;
         <a href="#" class="navbar__link h-full mt-3.5" @mouseenter="openDropdown" @mouseleave="closeDropdown">
           Профиль
           <ul v-show="dropdownOpen" class="navbar__submenu border-2 border-indigo-400">
+            <router-link to="/signin"><li>Войти</li></router-link>
+            <router-link to="/register"><li>Зарегистрироваться</li></router-link>
             <li>Подключить биржу</li>
             <li>Подключить стратегию</li>
             <router-link to="/create_rule"><li>Создать правило</li></router-link>

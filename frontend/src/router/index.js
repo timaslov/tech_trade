@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import WelcomePage from "@/views/WelcomePage.vue";
 import CreateRule from "@/views/CreateRule.vue";
+import AuthorizationView from "@/views/AuthorizationView.vue";
+import RegistrationView from "@/views/RegistrationView.vue";
 
 const routes = [
     {
@@ -10,6 +12,14 @@ const routes = [
     {
         path: '/create_rule',
         component: CreateRule
+    },
+    {
+        path: '/signin',
+        component: AuthorizationView
+    },
+    {
+        path: '/register',
+        component: RegistrationView
     },
 
 ]
