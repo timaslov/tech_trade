@@ -57,6 +57,7 @@ color: white;
             <router-link to="/register"><li>Зарегистрироваться</li></router-link>
             <li>Подключить биржу</li>
             <li>Подключить стратегию</li>
+            <router-link to="/my_life_my_rules"><li>Мои правила</li></router-link>
             <router-link to="/create_rule"><li>Создать правило</li></router-link>
             <li>Управление правилами</li>
             <li>Смена пароля</li>
@@ -124,13 +125,6 @@ export default {
 
 .navbar__submenu li:hover{
   color: #002eff;
-}
-
-.navbar__submenu-link {
-  display: block;
-  padding: 0.25rem 0.5rem;
-  color: white;
-  text-decoration: none;
 }
 
 .navbar__link:hover .navbar__submenu {

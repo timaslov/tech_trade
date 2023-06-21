@@ -15,56 +15,64 @@
     "
     >
       <label> Создайте алерт с кодом ниже</label>
-      <textarea class="border-2 w-2/3 rounded-md" placeholder="URL" v-model="DataAlertCode"></textarea>
+      <textarea readonly class="border-2 w-2/3 rounded-md" placeholder="URL" v-model="DataAlertCode"></textarea>
       <button
           v-if="isButtonVisible"
           @click="handleClick"
-          class="
-                  text-white
-                  bg-gradient-to-r from-indigo-500 to-cyan-500
-                  hover:from-indigo-600 hover:to-cyan-600
-                  duration-300
-                  font-medium
-                  rounded-lg
-                  text-sm
-                  px-5
-                  py-2.5
-                "
+          class="blue_gradient_button"
       >Алерт отправлен</button>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import {useUserStore} from "@/store/userStore";
+import {showSpinner, hideSpinner} from "@/helpers/mySpinner";
 export default {
   name: "CreateAlert",
 
   props: {
-    alertCode: Object,
+    alertCode: "",
+    slot: 0,
   },
 
   data() {
     return {
       isButtonVisible: true,
-      DataAlertCode: {},
+      DataAlertCode: "",
+      spinner: null,
     };
   },
 
   created() {
-    this.DataAlertCode = JSON.stringify(this.alertCode)
-    console.log(this.alertCode)
-    console.log(this.DataAlertCode)
+    this.DataAlertCode = this.alertCode
   },
 
   methods: {
-    handleClick() {
-      this.$emit('alert_sent');
+    async handleClick() {
+      this.spinner = showSpinner('spinner-target')
       this.hideButton()
+
+      const userStore = useUserStore()
+
+      setTimeout(async () => {
+        let response = await axios
+            .get("http://178.154.221.39:80/getinds?userId=" + userStore.user.uid + "&slot=" + this.slot)
+
+        console.log(response.data)
+
+        if (response.data.plots === null)
+          this.$emit('alert_sent_error');
+        else
+          this.$emit('alert_sent', response.data.plots.split(","));
+        hideSpinner(this.spinner);
+      }, 1000);
     },
 
     hideButton(){
       this.isButtonVisible = false
-    }
+    },
 
   },
 }

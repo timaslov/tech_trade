@@ -2,28 +2,18 @@
   <div class="flex flex-col justify-center items-center">
     <div class="w-2/3 p-5 flex flex-col space-y-4 justify-center items-center bg-gradient-to-r from-purple-100 to-blue-100 rounded-lg border-2 border-indigo-300">
       <label>Индикаторы на чарте</label>
-      <textarea class="border-2 w-2/3 rounded-md" placeholder="URL" v-model="chartData.indicators"></textarea>
+      <textarea readonly class="border-2 w-2/3 rounded-md" placeholder="URL" v-model="chartData.indicators"></textarea>
 
       <label>Значения индикаторов</label>
-      <textarea class="border-2 w-2/3 rounded-md" placeholder="URL" v-model="chartData.plots"></textarea>
+      <textarea readonly class="border-2 w-2/3 rounded-md" placeholder="URL" v-model="chartData.plots"></textarea>
 
       <label>Создайте индикатор с кодом ниже</label>
-      <textarea class="border-2 w-2/3 rounded-md" placeholder="URL" v-model="chartData.res_code"></textarea>
+      <textarea readonly class="border-2 w-2/3 rounded-md" placeholder="URL" v-model="chartData.res_code"></textarea>
 
       <button
           v-if="isButtonVisible"
           @click="handleClick"
-          class="
-                  text-white
-                  bg-gradient-to-r from-indigo-500 to-cyan-500
-                  hover:from-indigo-600 hover:to-cyan-600
-                  duration-300
-                  font-medium
-                  rounded-lg
-                  text-sm
-                  px-5
-                  py-2.5
-                "
+          class="blue_gradient_button"
       >Индикатор создан</button>
     </div>
   </div>

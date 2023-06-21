@@ -1,3 +1,4 @@
+import './assets/main.css'
 import './assets/tailwind.css'
 import router from "@/router";
 

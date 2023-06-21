@@ -17,20 +17,11 @@
       <label> Введите ссылку на чарт </label>
       <label> https://www.tradingview.com/chart/Y0qHLrDY/?symbol=BINANCE%3ABNBUSDT.P </label>
       <textarea class="border-2 w-2/3 rounded-md" placeholder="URL" v-model="chartLink"></textarea>
+      <div id="spinner-target" class="spinner"></div>
       <button
           v-if="isButtonVisible"
           @click="handleClick"
-          class="
-                  text-white
-                  bg-gradient-to-r from-indigo-500 to-cyan-500
-                  hover:from-indigo-600 hover:to-cyan-600
-                  duration-300
-                  font-medium
-                  rounded-lg
-                  text-sm
-                  px-5
-                  py-2.5
-                "
+          class="blue_gradient_button"
       >Обработать ссылку</button>
     </div>
   </div>
@@ -38,34 +29,37 @@
 
 <script>
 import axios from "axios";
+import {showSpinner, hideSpinner} from "@/helpers/mySpinner";
 export default {
   data() {
     return {
       chartLink: 'https://www.tradingview.com/chart/Y0qHLrDY/?symbol=BINANCE%3ABNBUSDT.P',
-      responseData: {},
       isButtonVisible: true,
+      spinner: null,
     };
   },
   methods: {
     async handleClick() {
+      this.spinner = showSpinner('spinner-target')
+
       let response
       let body = {url: this.chartLink}
       try {
         response = await axios.post(
             "http://178.154.221.39:80/testhook", body)
-        this.responseData = response.data
-        this.$emit('url_handle_success', this.responseData);
+        this.$emit('url_handle_success', response.data);
         this.hideButton()
       } catch(error)
       {
         throw error.response.status
       }
-      console.log(this.responseData)
+
+      hideSpinner(this.spinner);
     },
 
     hideButton() {
       this.isButtonVisible = false
-    }
+    },
 
   },
 };
