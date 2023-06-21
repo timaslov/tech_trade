@@ -44,7 +44,7 @@ export default {
         this.$emit('save_rule_success');
 
         setTimeout(() => {
-          this.$router.push('/my_life_my_rules');
+          this.$router.push('/control_panel');
         }, 1000);
       } catch(error)
       {

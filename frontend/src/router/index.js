@@ -4,7 +4,8 @@ import CreateRule from "@/views/CreateRule.vue";
 import AuthorizationView from "@/views/AuthorizationView.vue";
 import RegistrationView from "@/views/RegistrationView.vue";
 import EmailApproved from "@/views/EmailApproved.vue";
-import MyRules from "@/views/MyRules.vue";
+import ControlPanel from "@/views/ControlPanel.vue";
+import AddExchange from "@/views/AddExchange.vue";
 
 const routes = [
     {
@@ -28,8 +29,12 @@ const routes = [
         component: EmailApproved
     },
     {
-        path: '/my_life_my_rules',
-        component: MyRules
+        path: '/control_panel',
+        component: ControlPanel
+    },
+    {
+        path: '/add_exchange',
+        component: AddExchange
     },
 
 ]

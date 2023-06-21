@@ -55,9 +55,9 @@ color: white;
           <ul v-show="dropdownOpen" class="navbar__submenu border-2 border-indigo-400">
             <router-link to="/signin"><li>Войти</li></router-link>
             <router-link to="/register"><li>Зарегистрироваться</li></router-link>
-            <li>Подключить биржу</li>
+            <router-link to="/add_exchange"><li>Подключить биржу</li></router-link>
             <li>Подключить стратегию</li>
-            <router-link to="/my_life_my_rules"><li>Мои правила</li></router-link>
+            <router-link to="/control_panel"><li>Панель управления</li></router-link>
             <router-link to="/create_rule"><li>Создать правило</li></router-link>
             <li>Управление правилами</li>
             <li>Смена пароля</li>

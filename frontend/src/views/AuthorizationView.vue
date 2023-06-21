@@ -44,6 +44,7 @@ import 'firebase/compat/auth';
 import {firebaseApp} from "../../firebaseConfig";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {useUserStore} from "@/store/userStore";
+import {fetchUserPanelInfo} from "@/helpers/requests";
 export default {
   name: "AuthorizationView",
 
@@ -55,19 +56,26 @@ export default {
   },
 
   methods: {
-    login(event) {
+    async login(event) {
       event.preventDefault();
 
       const auth = getAuth(firebaseApp);
       signInWithEmailAndPassword(auth, this.email, this.password)
-          .then((userCredential) => {
+          .then(async (userCredential) => {
             const user = userCredential.user;
             if (user.emailVerified) {
               console.log("Успешная авторизация", user);
               const userStore = useUserStore()
               userStore.setUser(user)
-            }
-            else
+
+              try {
+                await fetchUserPanelInfo()
+              }catch(error)
+              {
+                console.log('Не удалось загрузить информацию для панели')
+              }
+
+            } else
               console.log("Почта не подтверждена");
           })
           .catch((error) => {

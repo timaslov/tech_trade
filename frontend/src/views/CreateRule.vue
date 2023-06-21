@@ -66,9 +66,9 @@ export default {
     },
 
     AlertCodeCreatedHandler(data, slot) {
-      console.log(data)
+      console.log(JSON.stringify(data))
       console.log(slot)
-      this.AlertCode = data
+      this.AlertCode = JSON.stringify(data)
       this.AlertCodeCreated = true
       this.SelectedSlot = slot
     },

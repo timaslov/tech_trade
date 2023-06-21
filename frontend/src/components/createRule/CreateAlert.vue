@@ -57,15 +57,24 @@ export default {
       const userStore = useUserStore()
 
       setTimeout(async () => {
-        let response = await axios
-            .get("http://178.154.221.39:80/getinds?userId=" + userStore.user.uid + "&slot=" + this.slot)
+        try {
+          const response = await axios.get('http://178.154.221.39:80/getinds', {
+            params: {
+              userId: userStore.user.uid,
+              slot: this.slot
+            }
+          })
 
-        console.log(response.data)
+          console.log('Успешный запрос:', response.data);
 
-        if (response.data.plots === null)
-          this.$emit('alert_sent_error');
-        else
-          this.$emit('alert_sent', response.data.plots.split(","));
+          if (response.data.plots === null)
+            this.$emit('alert_sent_error');
+          else
+            this.$emit('alert_sent', response.data.plots.split(","));
+        } catch (error) {
+          console.error('Ошибка запроса:', error);
+        }
+
         hideSpinner(this.spinner);
       }, 1000);
     },
