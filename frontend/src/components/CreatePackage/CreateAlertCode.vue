@@ -17,7 +17,7 @@
           v-if="isButtonVisible"
           @click="handleClick"
           class="blue_gradient_button"
-      >Индикатор создан</button>
+      >Создать код алерта</button>
     </div>
   </div>
 </template>

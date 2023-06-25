@@ -1,6 +1,7 @@
 <template>
   <div class="flex flex-col space-y-10">
-    <h1 class="text-center text-xl mt-10"> Создание правила </h1>
+    <h1 class="text-center text-xl mt-10"> Создание пакета </h1>
+
     <input-chart-u-r-l
         @url_handle_success="UrlFormSuccessHandler"
     />
@@ -21,7 +22,7 @@
         :slot="SelectedSlot"
         v-if="AlertCodeCreated"
     />
-    <SaveRule
+    <SavePackage
         v-if="AlertSent"
         :slot="SelectedSlot"
         :plots="Plots"
@@ -30,15 +31,15 @@
 </template>
 
 <script>
-import InputChartURL from "@/components/createRule/InputChartURL.vue";
-import CreateIndicator from "@/components/createRule/CreateIndicator.vue";
-import CreateAlertCode from "@/components/createRule/CreateAlertCode.vue";
-import CreateAlert from "@/components/createRule/CreateAlert.vue";
-import SaveRule from "@/components/createRule/SaveRule.vue";
+import InputChartURL from "@/components/CreatePackage/InputChartURL.vue";
+import CreateIndicator from "@/components/CreatePackage/CreateIndicator.vue";
+import CreateAlertCode from "@/components/CreatePackage/CreateAlertCode.vue";
+import CreateAlert from "@/components/CreatePackage/CreateAlert.vue";
+import SavePackage from "@/components/CreatePackage/SavePackage.vue";
 export default {
-  name: "CreateRule",
+  name: "CreatePackage",
 
-  components: {InputChartURL, CreateIndicator, CreateAlertCode, CreateAlert, SaveRule},
+  components: {InputChartURL, CreateIndicator, CreateAlertCode, CreateAlert, SavePackage},
 
   data() {
     return{
@@ -50,7 +51,6 @@ export default {
       AlertSent: false,
       SelectedSlot: 0,
       Plots: [],
-
     }
   },
 

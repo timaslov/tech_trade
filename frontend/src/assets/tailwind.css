@@ -6,4 +6,7 @@
     .blue_gradient_button {
         @apply text-white bg-gradient-to-r from-indigo-500 to-cyan-500 hover:from-indigo-600 hover:to-cyan-600 duration-300 font-medium rounded-lg text-sm px-5 py-2.5
     }
+    .logic_element {
+        @apply bg-blue-500 text-white font-medium rounded-lg text-sm px-2 py-2.5
+    }
 }

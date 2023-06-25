@@ -1,11 +1,7 @@
-.navbar__menu {
-display: flex;
-align-items: center;
-justify-content: center;
-background-color: #555;
-padding: 1rem;
-color: white;
-}
+<script setup>
+import {useUserStore} from "@/store/userStore";
+const userStore = useUserStore()
+</script>
 
 <template>
   <nav>
@@ -21,7 +17,7 @@ color: white;
 
       <li class="navbar__item h-full">
         <a href="#" class="navbar__link h-full mt-3.5" @mouseenter="openDropdown" @mouseleave="closeDropdown">
-          Инструкция по настройке
+          Инструкция
           <ul v-show="dropdownOpen" class="navbar__submenu border-2 border-indigo-400">
             <li>Как подключить аккаунт биржи</li>
             <li>Как подключить существующую стратегию</li>
@@ -51,17 +47,22 @@ color: white;
 
       <li class="navbar__item h-full">
         <a href="#" class="navbar__link h-full mt-3.5" @mouseenter="openDropdown" @mouseleave="closeDropdown">
-          Профиль
+          <div v-if="userStore.user"> {{userStore.user.email}} </div>
+          <div v-if="!userStore.user"> Аккаунт </div>
           <ul v-show="dropdownOpen" class="navbar__submenu border-2 border-indigo-400">
-            <router-link to="/signin"><li>Войти</li></router-link>
-            <router-link to="/register"><li>Зарегистрироваться</li></router-link>
-            <router-link to="/add_exchange"><li>Подключить биржу</li></router-link>
-            <li>Подключить стратегию</li>
-            <router-link to="/control_panel"><li>Панель управления</li></router-link>
-            <router-link to="/create_rule"><li>Создать правило</li></router-link>
-            <li>Управление правилами</li>
-            <li>Смена пароля</li>
-            <li @click="logoutButton">Выйти</li>
+            <div v-if="userStore.user">
+              <router-link to="/add_exchange"><li>Подключить биржу</li></router-link>
+              <li>Подключить стратегию</li>
+              <router-link to="/control_panel"><li>Панель управления</li></router-link>
+              <router-link to="/create_package"><li>Создать пакет</li></router-link>
+              <li>Управление правилами</li>
+              <li>Смена пароля</li>
+              <li @click="logoutButton">Выйти</li>
+            </div>
+            <div v-if="!userStore.user">
+              <router-link to="/signin"><li>Войти</li></router-link>
+              <router-link to="/register"><li>Зарегистрироваться</li></router-link>
+            </div>
           </ul>
         </a>
       </li>
@@ -72,6 +73,7 @@ color: white;
 
 <script>
 import {useUserStore} from "@/store/userStore";
+import {logOut} from "@/store/userStore";
 export default {
   name: "NavBar",
 
@@ -88,9 +90,7 @@ export default {
       this.dropdownOpen = false;
     },
     logoutButton() {
-      const userStore = useUserStore()
-      userStore.clearUser()
-      console.log(userStore.user)
+      logOut()
     },
   },
 };

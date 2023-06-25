@@ -41,10 +41,7 @@
 
 <script>
 import 'firebase/compat/auth';
-import {firebaseApp} from "../../firebaseConfig";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import {useUserStore} from "@/store/userStore";
-import {fetchUserPanelInfo} from "@/helpers/requests";
+import {signIn} from "@/store/userStore";
 export default {
   name: "AuthorizationView",
 
@@ -58,29 +55,13 @@ export default {
   methods: {
     async login(event) {
       event.preventDefault();
+      try{
+        signIn(this.email, this.password)
+        this.$router.push('/');
+      } catch (error){
+        console.log(error)
+      }
 
-      const auth = getAuth(firebaseApp);
-      signInWithEmailAndPassword(auth, this.email, this.password)
-          .then(async (userCredential) => {
-            const user = userCredential.user;
-            if (user.emailVerified) {
-              console.log("Успешная авторизация", user);
-              const userStore = useUserStore()
-              userStore.setUser(user)
-
-              try {
-                await fetchUserPanelInfo()
-              }catch(error)
-              {
-                console.log('Не удалось загрузить информацию для панели')
-              }
-
-            } else
-              console.log("Почта не подтверждена");
-          })
-          .catch((error) => {
-            console.log("Ошибка авторизации", error);
-          });
     },
   },
 }

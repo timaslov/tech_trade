@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import WelcomePage from "@/views/WelcomePage.vue";
-import CreateRule from "@/views/CreateRule.vue";
+import CreatePackage from "@/views/CreatePackage.vue";
 import AuthorizationView from "@/views/AuthorizationView.vue";
 import RegistrationView from "@/views/RegistrationView.vue";
 import EmailApproved from "@/views/EmailApproved.vue";
 import ControlPanel from "@/views/ControlPanel.vue";
 import AddExchange from "@/views/AddExchange.vue";
+import CreateLogic from "@/views/CreateLogic.vue";
 
 const routes = [
     {
@@ -13,8 +14,8 @@ const routes = [
         component: WelcomePage
     },
     {
-        path: '/create_rule',
-        component: CreateRule
+        path: '/create_package',
+        component: CreatePackage
     },
     {
         path: '/signin',
@@ -35,6 +36,10 @@ const routes = [
     {
         path: '/add_exchange',
         component: AddExchange
+    },
+    {
+        path: '/create_logic',
+        component: CreateLogic
     },
 
 ]

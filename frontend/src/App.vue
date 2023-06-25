@@ -7,12 +7,16 @@
 </template>
 
 <script>
-import navBar from "@/components/NavBar.vue";
 import {defineComponent} from "vue";
 import NavBar from "@/components/NavBar.vue";
+import {authStateChangedHandler} from "@/store/userStore";
 
 export default defineComponent({
-  components: {NavBar}
+  components: {NavBar},
+
+  mounted() {
+    authStateChangedHandler()
+  }
 })
 
 </script>

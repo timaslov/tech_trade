@@ -15,7 +15,6 @@
     "
     >
       <label> Введите ссылку на чарт </label>
-      <label> https://www.tradingview.com/chart/Y0qHLrDY/?symbol=BINANCE%3ABNBUSDT.P </label>
       <textarea class="border-2 w-2/3 rounded-md" placeholder="URL" v-model="chartLink"></textarea>
       <div id="spinner-target" class="spinner"></div>
       <button
@@ -30,6 +29,7 @@
 <script>
 import axios from "axios";
 import {showSpinner, hideSpinner} from "@/helpers/mySpinner";
+import {useUserStore} from "@/store/userStore";
 export default {
   data() {
     return {
@@ -38,15 +38,19 @@ export default {
       spinner: null,
     };
   },
+
   methods: {
     async handleClick() {
+      const userStore = useUserStore()
       this.spinner = showSpinner('spinner-target')
-
+      console.log(userStore.user.stsTokenManager.accessToken)
       let response
       let body = {url: this.chartLink}
+      let token = userStore.user.stsTokenManager.accessToken
+      let config = {headers: {Authorization: `Bearer ${token}`}}
       try {
         response = await axios.post(
-            "http://178.154.221.39:80/testhook", body)
+            "http://178.154.221.39:80/testhook", body, config)
         this.$emit('url_handle_success', response.data);
         this.hideButton()
       } catch(error)

@@ -17,9 +17,9 @@
       <div>
         <h1 class="text-center text-xl"> Сохраненные пакеты </h1>
         <ul class="ml-2">
-          <li v-for="rule in rules" :key="rule"> {{rule.name}} </li>
+          <li v-for="pack in packages" :key="pack"> {{pack.name}} </li>
         </ul>
-        <router-link to="/create_rule">
+        <router-link to="/create_package">
           <button class="blue_gradient_button"> Добавить </button>
         </router-link>
       </div>
@@ -29,7 +29,9 @@
         <ul class="ml-2">
           <li v-for="logic in logics" :key="logic"> {{logic.name}} </li>
         </ul>
+        <router-link to="/create_logic">
         <button class="blue_gradient_button"> Добавить </button>
+        </router-link>
       </div>
 
       <div>
@@ -52,7 +54,7 @@ export default {
   data() {
     return {
       exchanges: [{name: 'Binance'}, {name: 'Bybit'}, {name: 'Exmo'}],
-      rules: [{name: 'Мега-пакет'}, {name: 'Лютый'}, {name: 'Парадный'}],
+      packages: [{name: 'Мега-пакет'}, {name: 'Лютый'}, {name: 'Парадный'}],
       logics: [{name: 'Победная'}, {name: 'Убийственная'}, ],
       tradingRules: [],
     };

@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyA4KpbB180lNEPvze0Rzz6ZAo_Hq1lvRsE",
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
     authDomain: "ruletrading-7febf.firebaseapp.com",
     projectId: "ruletrading-7febf",
     storageBucket: "ruletrading-7febf.appspot.com",
