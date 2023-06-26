@@ -58,7 +58,6 @@ export default {
     UrlFormSuccessHandler(data) {
       this.UrlFormSuccess = true
       this.UrlFormData = data
-      console.log(this.UrlFormData)
     },
 
     ChartCreatedHandler() {
@@ -66,8 +65,6 @@ export default {
     },
 
     AlertCodeCreatedHandler(data, slot) {
-      console.log(JSON.stringify(data))
-      console.log(slot)
       this.AlertCode = JSON.stringify(data)
       this.AlertCodeCreated = true
       this.SelectedSlot = slot

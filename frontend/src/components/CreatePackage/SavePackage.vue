@@ -16,10 +16,9 @@
 </template>
 
 <script>
-import axios from "axios";
-import {useUserStore} from "@/store/userStore";
 import {showSpinner, hideSpinner} from "@/helpers/mySpinner";
 import {toRaw} from "vue";
+import {postRequest} from "@/helpers/requests";
 export default {
   name: "SavePackage",
 
@@ -41,22 +40,23 @@ export default {
       if (this.checkName()) {
         this.spinner = showSpinner('spinner-target')
 
-        const userStore = useUserStore()
-        let response
-        let body = {userid: userStore.user.uid, slotnumber: this.slot, plots: toRaw(this.plots), name: this.packageName}
         try {
-          response = await axios.post(
-              "http://178.154.221.39:80/saveplots", body)
-          console.log(response.data)
+          let body = {
+            slotnumber: this.slot,
+            plots: toRaw(this.plots),
+            name: this.packageName
+          }
+          await postRequest('/saveplots', {}, body)
           this.$emit('save_package_success');
 
           setTimeout(() => {
             this.$router.push('/control_panel');
           }, 1000);
+
         } catch (error) {
-          console.log(response.data)
-          throw error.response.status
+          console.log('Ошибка ', error.response.status)
         }
+
       }
       else {
         this.nameError = true

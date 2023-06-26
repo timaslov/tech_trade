@@ -26,9 +26,8 @@
 </template>
 
 <script>
-import axios from "axios";
-import {useUserStore} from "@/store/userStore";
 import {showSpinner, hideSpinner} from "@/helpers/mySpinner";
+import {getRequest} from "@/helpers/requests";
 export default {
   name: "CreateAlert",
 
@@ -54,33 +53,32 @@ export default {
       this.spinner = showSpinner('spinner-target')
       this.hideButton()
 
-      const userStore = useUserStore()
-
       setTimeout(async () => {
         try {
-          const response = await axios.get('http://178.154.221.39:80/getinds', {
-            params: {
-              userId: userStore.user.uid,
-              slot: this.slot
-            }
-          })
-
-          console.log('Успешный запрос:', response.data);
+          let parameters = {
+            slot: this.slot
+          }
+          let response = await getRequest('/getinds', parameters)
 
           if (response.data.plots === null)
             this.$emit('alert_sent_error');
           else
             this.$emit('alert_sent', response.data.plots.split(","));
-        } catch (error) {
-          console.error('Ошибка запроса:', error);
-        }
 
+        } catch (error) {
+          console.log('Ошибка ', error.response.status)
+          this.showButton()
+        }
         hideSpinner(this.spinner);
       }, 1000);
     },
 
     hideButton(){
       this.isButtonVisible = false
+    },
+
+    showButton(){
+      this.isButtonVisible = true
     },
 
   },

@@ -56,7 +56,7 @@ export default {
     async login(event) {
       event.preventDefault();
       try{
-        signIn(this.email, this.password)
+        await signIn(this.email, this.password)
         this.$router.push('/');
       } catch (error){
         console.log(error)

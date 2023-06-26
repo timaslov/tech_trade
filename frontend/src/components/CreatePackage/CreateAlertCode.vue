@@ -24,8 +24,8 @@
 
 <script>
 import {useUserStore} from "@/store/userStore";
-import axios from "axios";
 import {showSpinner, hideSpinner} from "@/helpers/mySpinner";
+import {postRequest} from "@/helpers/requests";
 export default {
   name: "CreateAlertCode",
 
@@ -54,23 +54,17 @@ export default {
     async handleClick() {
       this.spinner = showSpinner('spinner-target')
 
-      const userStore = useUserStore()
-
-      let response
-      let body = {
-        userid: userStore.user.uid,
-        slotnumber: this.selectedSlot,
-        code: this.chartData.res_code,
-        plots: this.chartData.plots.toString(),
-      }
       try {
-        response = await axios.post(
-            "http://178.154.221.39:80/createalert", body)
+        let body = {
+          slotnumber: this.selectedSlot,
+          code: this.chartData.res_code,
+          plots: this.chartData.plots.toString(),
+        }
+        let response = await postRequest('/createalert', {}, body)
         this.$emit('alert_code_created', response.data, this.selectedSlot);
         this.hideButton()
-      } catch(error)
-      {
-        throw error.response.status
+      } catch (error) {
+        console.log('Ошибка ', error.response.status)
       }
 
       hideSpinner(this.spinner);

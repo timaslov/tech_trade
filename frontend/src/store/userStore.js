@@ -3,11 +3,14 @@ import { defineStore } from 'pinia'
 import 'firebase/compat/auth';
 import {firebaseApp} from "../../firebaseConfig";
 import {getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut} from "firebase/auth";
-import {fetchUserPanelInfo} from "@/helpers/requests";
+import {getRequest} from "@/helpers/requests";
 
 export const useUserStore = defineStore('user', {
     state: () => ({
-        user: JSON.parse(localStorage.getItem('user')),
+        user: {},
+        isPanelDataLoading: false,
+        exchanges: [],
+        packages: [],
     }),
     getters: {
         isLoggedIn: (state) => state.user !== null,
@@ -24,26 +27,14 @@ export const useUserStore = defineStore('user', {
     },
 })
 
-export function signIn(email, password) {
-    const auth = getAuth(firebaseApp);
-    signInWithEmailAndPassword(auth, email, password)
-        .then(async (userCredential) => {
-            const user = userCredential.user;
-            if (user.emailVerified) {
-                try {
-                    await fetchUserPanelInfo()
-                }catch(error)
-                {
-                    console.log('Не удалось загрузить информацию для панели')
-                    throw error;
-                }
-            } else
-                console.log("Почта не подтверждена");
-        })
-        .catch((error) => {
-            console.log("Ошибка авторизации", error);
-            throw error;
-        });
+export async function signIn(email, password) {
+    try {
+        const auth = getAuth(firebaseApp);
+        await signInWithEmailAndPassword(auth, email, password)
+    }catch(error) {
+        console.log("Ошибка авторизации");
+        throw error;
+    }
 }
 
 export function logOut() {
@@ -60,14 +51,15 @@ export function logOut() {
         });
 }
 
-export function authStateChangedHandler() {
+export async function authStateChangedHandler() {
     const userStore = useUserStore()
     const auth = getAuth(firebaseApp);
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
         //console.log(user)
         if (user) {
             console.log("Пользователь авторизован")
             userStore.setUser(user)
+            await fetchAndSaveUserPanelInfo()
             //console.log(userStore.user)
         } else {
             console.log("Пользователь не авторизован");
@@ -75,4 +67,20 @@ export function authStateChangedHandler() {
             //console.log(userStore.user)
         }
     });
+}
+
+
+export async function fetchAndSaveUserPanelInfo() {
+    const userStore = useUserStore()
+    userStore.isPanelDataLoading = true
+
+    try {
+        let response = await getRequest('/getparamsforpanel', {})
+        userStore.exchanges = response.data.exchNames
+        userStore.packages = response.data.packages
+    } catch (error) {
+        throw error.response.status
+    }
+
+    userStore.isPanelDataLoading = false
 }

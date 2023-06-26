@@ -37,8 +37,7 @@
 
 <script>
 import {hideSpinner, showSpinner} from "@/helpers/mySpinner";
-import {useUserStore} from "@/store/userStore";
-import axios from "axios";
+import {postRequest} from "@/helpers/requests";
 
 export default {
   name: "AddExchange",
@@ -56,29 +55,21 @@ export default {
     async handleClick() {
       this.spinner = showSpinner('spinner-target')
 
-      const userStore = useUserStore()
-
-      let response
-      //exchanges хранить в базе и сначала получать доступные, потом выводить не подключенные и передавать id
-      let body = {
-        userid: userStore.user.uid,
-        exchange: this.selectedExchange.name,
-        key: this.apiKey,
-        secret: this.secretKey
-      }
-      console.log(body)
       try {
-        response = await axios.post(
-            "http://178.154.221.39:80/exchange_connect", body)
+        let body = {
+          exchange: this.selectedExchange.name,
+          key: this.apiKey,
+          secret: this.secretKey
+        }
+        let response = await postRequest('/exchange_connect', {}, body)
+        this.$emit('url_handle_success', response.data);
 
-      } catch(error)
-      {
-        throw error.response.status
+      } catch (error) {
+        console.log('Ошибка ', error.response.status)
       }
 
       hideSpinner(this.spinner);
     },
-
 
   },
 }

@@ -21,9 +21,17 @@
           <option v-for="plot in this.plots" :key="plot" :value="plot">
             {{ plot }}
           </option>
+          <option> {{myValueName}} </option>
         </select>
 
         <button @click="handleClick" class="blue_gradient_button"> Добавить </button>
+      </div>
+
+      <div v-if="selectedPlot2 === myValueName" class="grid grid-cols-4 gap-4">
+        <div></div>
+        <div></div>
+        <input v-model="myValueInput">
+        <div></div>
       </div>
 
       <label v-if="isErrorShown" class="text-red-500"> Некорректные значения </label>
@@ -45,6 +53,8 @@ export default {
       selectedOperator: '',
       resExp: '',
       isErrorShown: false,
+      myValueName: 'Свое значение',
+      myValueInput: '',
     };
   },
 
@@ -53,9 +63,20 @@ export default {
       if (this.selectedPlot1 === '' || this.selectedPlot2 === '' || this.selectedOperator === ''
           || this.selectedPlot1 === this.selectedPlot2) {
         this.showError()
-      } else {
-        this.resExp = this.selectedPlot1 + this.selectedOperator + this.selectedPlot2
-        this.$emit('atomic_rule_created', this.resExp);
+      }
+      else {
+        if (this.selectedPlot2 === this.myValueName) {
+          if (!isNaN(this.myValueInput) && this.myValueInput !== '') {
+            this.resExp = this.selectedPlot1 + this.selectedOperator + this.myValueInput
+            this.$emit('atomic_rule_created', this.resExp);
+          }
+          else
+            this.showError()
+        }
+        else {
+          this.resExp = this.selectedPlot1 + this.selectedOperator + this.selectedPlot2
+          this.$emit('atomic_rule_created', this.resExp);
+        }
       }
     },
 

@@ -27,9 +27,8 @@
 </template>
 
 <script>
-import axios from "axios";
 import {showSpinner, hideSpinner} from "@/helpers/mySpinner";
-import {useUserStore} from "@/store/userStore";
+import {postRequest} from "@/helpers/requests";
 export default {
   data() {
     return {
@@ -41,21 +40,14 @@ export default {
 
   methods: {
     async handleClick() {
-      const userStore = useUserStore()
       this.spinner = showSpinner('spinner-target')
-      console.log(userStore.user.stsTokenManager.accessToken)
-      let response
-      let body = {url: this.chartLink}
-      let token = userStore.user.stsTokenManager.accessToken
-      let config = {headers: {Authorization: `Bearer ${token}`}}
+
       try {
-        response = await axios.post(
-            "http://178.154.221.39:80/testhook", body, config)
+        let response = await postRequest('/testhook', {}, { url: this.chartLink })
         this.$emit('url_handle_success', response.data);
         this.hideButton()
-      } catch(error)
-      {
-        throw error.response.status
+      } catch (error) {
+        console.log('Ошибка ', error.response.status)
       }
 
       hideSpinner(this.spinner);
